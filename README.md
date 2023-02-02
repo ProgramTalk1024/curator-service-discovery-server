@@ -400,4 +400,4 @@ github：https://github.com/ProgramTalk1024/curator-service-discovery-server.git
 
 # 运行说明
 
-如果想运行该项目，首先区application.yaml中修改zk的地址。
+如果想运行该项目，首先去application.yaml中修改zk的地址。
