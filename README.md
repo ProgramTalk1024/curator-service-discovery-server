@@ -10,6 +10,9 @@ JDK: 17
 Spring boot版本不能使用`3.x`以上,我使用`3.0.2`测试,不通过,目前还没有研究具体原因,暂时使用`2.7.8`!
 * `Curator Service Discovery Server` 的依赖 `curator-x-discovery-server` 是基于JAX-RS实现的,所以`Spring boot`的web依赖要使用`pring-boot-starter-jersey`.
 * `curator-x-discovery-server`已经提供了Restful api的代码, 我们无需自己写,只需要配置即可.
+
+
+
 # 项目说明
 ## Maven依赖
 ```xml
@@ -225,3 +228,173 @@ cn:
 
 # API测试
 
+api请求数据结构请看官方说明：https://git-wip-us.apache.org/repos/asf?p=curator.git;a=blob_plain;f=curator-x-discovery-server/README.txt;hb=HEAD
+
+
+
+## putService
+
+注册或者修改服务
+
+![putService](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202302021923115.png)
+
+
+
+请求数据如下：
+
+```http
+PUT /v1/service/product-service/product-instance-id2 HTTP/1.1
+Host: localhost:8080
+Content-Type: application/json
+Content-Length: 224
+
+{
+    "name": "product-service",
+    "id": "product-instance-id2",
+    "address": "10.20.30.40",
+    "port": 1234,
+    "payload": "产品服务payload",
+    "registrationTimeUTC": 1325129459728,
+    "serviceType": "STATIC"
+}
+```
+
+
+
+看下Zk里的节点的信息
+
+![image-20230202192433063](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202302021924143.png)
+
+
+
+可以看到`product-service`服务里有一个实例`product-instance-id1`
+
+我再添加几个实例(修改id即可)。
+
+![image-20230202192702930](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202302021927008.png)
+
+总共添加了三个实例。
+
+用同样的方法再添加另一个订单服务（`order-service`）
+
+```http
+PUT /v1/service/order-service/order-instance-id1 HTTP/1.1
+Host: localhost:8080
+Content-Type: application/json
+Content-Length: 220
+
+{
+    "name": "order-service",
+    "id": "order-instance-id1",
+    "address": "10.20.30.40",
+    "port": 1234,
+    "payload": "订单服务payload",
+    "registrationTimeUTC": 1325129459728,
+    "serviceType": "STATIC"
+}
+```
+
+再查看下zk节点情况
+
+![image-20230202192925593](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202302021929676.png)
+
+也创建了三个实例。
+
+## removeService
+
+删除服务下的实例
+
+
+
+测试删除`order-service`的`order-instance-id1`实例
+
+![removeService](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202302021931868.png)
+
+
+
+```http
+DELETE /v1/service/order-service/order-instance-id1 HTTP/1.1
+Host: localhost:8080
+```
+
+查看订单服务信息
+
+![image-20230202193153385](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202302021931462.png)
+
+确实已经被删除掉。
+
+## get
+
+获取服务下的单个实例
+
+
+
+![get](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202302021932466.png)
+
+
+
+```http
+GET /v1/service/order-service/order-instance-id2 HTTP/1.1
+Host: localhost:8080
+```
+
+
+
+## getAllNames
+
+查询所有服务名
+
+
+
+![getAllNames](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202302021933646.png)
+
+
+
+```http
+GET /v1/service HTTP/1.1
+Host: localhost:8080
+```
+
+
+
+## getAll
+
+查询服务下的所有实例
+
+![getAll](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202302021934190.png)
+
+
+
+```http
+GET /v1/service/order-service HTTP/1.1
+Host: localhost:8080
+```
+
+
+
+## getAny
+
+随机获取某个服务下的某个实例
+
+
+
+![getAny](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202302021935455.png)
+
+
+
+```http
+GET /v1/anyservice/order-service HTTP/1.1
+Host: localhost:8080
+```
+
+
+
+# 项目地址
+
+github：https://github.com/ProgramTalk1024/curator-service-discovery-server.githttps://itlab1024.com/archives/208.html)
+
+
+
+# 运行说明
+
+如果想运行该项目，首先区application.yaml中修改zk的地址。
