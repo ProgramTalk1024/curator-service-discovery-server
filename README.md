@@ -218,7 +218,7 @@ cn:
     # zookeeper服务信息
     zk-servers: 172.29.240.53:2181
     # 服务发现的根路径(zookeeper中)
-    base-path: /service-discovery
+    base-path: '/service-discovery'
 ```
 
 
