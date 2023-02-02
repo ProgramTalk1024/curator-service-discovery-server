@@ -1,0 +1,6 @@
+cn:
+  programtalk:
+    # zookeeper????
+    zk-servers: 172.29.240.53:2181
+    # ????????(zookeeper?)
+    base-path: /service-discovery
