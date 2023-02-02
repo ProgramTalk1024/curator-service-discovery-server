@@ -4,8 +4,11 @@
 
 # 版本说明
 Spring boot: 2.7.8
+
 Curator: 5.0.4
+
 JDK: 17
+
 # 特别说明
 Spring boot版本不能使用`3.x`以上,我使用`3.0.2`测试,不通过,目前还没有研究具体原因,暂时使用`2.7.8`!
 * `Curator Service Discovery Server` 的依赖 `curator-x-discovery-server` 是基于JAX-RS实现的,所以`Spring boot`的web依赖要使用`pring-boot-starter-jersey`.
