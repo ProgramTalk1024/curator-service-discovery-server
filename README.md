@@ -394,7 +394,11 @@ Host: localhost:8080
 
 # 项目地址
 
-github：https://github.com/ProgramTalk1024/curator-service-discovery-server.githttps://itlab1024.com/archives/208.html)
+github：https://github.com/ProgramTalk1024/curator-service-discovery-server.git
+
+说明文档
+
+https://itlab1024.com/archives/208.html
 
 
 
